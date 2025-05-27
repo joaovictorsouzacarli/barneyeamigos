@@ -5,11 +5,12 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Edit, Trash2, Loader2, RefreshCw, AlertTriangle, Save, X } from "lucide-react"
+import { Edit, Trash2, Loader2, RefreshCw, AlertTriangle, Save, X, Settings, Database } from "lucide-react"
 import { supabase } from "@/lib/supabase"
 import { toast } from "@/components/ui/use-toast"
 import { Toaster } from "@/components/ui/toaster"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
+import { Alert, AlertDescription } from "@/components/ui/alert"
 
 export function PlayersList() {
   const [players, setPlayers] = useState([])
@@ -20,10 +21,26 @@ export function PlayersList() {
   const [editedName, setEditedName] = useState("")
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
+  const [connectionStatus, setConnectionStatus] = useState(null)
 
   useEffect(() => {
     fetchPlayers()
   }, [])
+
+  const testConnection = async () => {
+    try {
+      console.log("Testando conexão com Supabase...")
+      const response = await fetch("/api/test-connection")
+      const data = await response.json()
+      setConnectionStatus(data)
+      console.log("Status da conexão:", data)
+      return data.success
+    } catch (err) {
+      console.error("Erro ao testar conexão:", err)
+      setConnectionStatus({ success: false, error: err.message })
+      return false
+    }
+  }
 
   const fetchPlayers = async () => {
     setLoading(true)
@@ -32,14 +49,21 @@ export function PlayersList() {
     try {
       console.log("Buscando jogadores do Supabase...")
 
+      // Primeiro, testar a conexão
+      const connectionOk = await testConnection()
+      if (!connectionOk) {
+        throw new Error("Falha na conexão com o banco de dados")
+      }
+
       const { data, error } = await supabase.from("players").select("*").order("name")
 
       if (error) {
-        throw error
+        console.error("Erro do Supabase:", error)
+        throw new Error(`Erro do Supabase: ${error.message}`)
       }
 
-      console.log(`Encontrados ${data.length} jogadores`)
-      setPlayers(data)
+      console.log(`Encontrados ${data?.length || 0} jogadores`)
+      setPlayers(data || [])
     } catch (err) {
       console.error("Erro ao buscar jogadores:", err)
       setError(err.message || "Erro ao buscar jogadores")
@@ -160,28 +184,108 @@ export function PlayersList() {
     setEditedName("")
   }
 
+  const clearAllData = async () => {
+    if (
+      !confirm(
+        "ATENÇÃO: Esta ação irá excluir TODOS os jogadores e registros do banco de dados. Esta ação NÃO PODE ser desfeita. Tem certeza que deseja continuar?",
+      )
+    ) {
+      return
+    }
+
+    try {
+      const response = await fetch("/api/limpar-dados", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || "Erro ao limpar dados")
+      }
+
+      toast({
+        title: "Sucesso",
+        description: "Todos os dados foram limpos com sucesso!",
+      })
+
+      // Atualizar a lista
+      fetchPlayers()
+    } catch (err) {
+      console.error("Erro ao limpar dados:", err)
+      toast({
+        title: "Erro",
+        description: err.message || "Erro ao limpar dados",
+        variant: "destructive",
+      })
+    }
+  }
+
   return (
     <Card className="border-blue-900/50 bg-black/30">
       <CardContent className="pt-6">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-bold">Lista de Jogadores</h3>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleRefresh}
-            disabled={refreshing}
-            className="border-blue-900/50 hover:bg-blue-900/20"
-          >
-            {refreshing ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
-            <span className="ml-2">Atualizar</span>
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleRefresh}
+              disabled={refreshing}
+              className="border-blue-900/50 hover:bg-blue-900/20"
+            >
+              {refreshing ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
+              <span className="ml-2">Atualizar</span>
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => window.open("/diagnostico-supabase", "_blank")}
+              className="border-yellow-600/50 hover:bg-yellow-900/20 text-yellow-400"
+            >
+              <Settings className="h-4 w-4 mr-2" />
+              Diagnóstico
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={clearAllData}
+              className="border-red-600/50 hover:bg-red-900/20 text-red-400"
+            >
+              <Database className="h-4 w-4 mr-2" />
+              Limpar Dados
+            </Button>
+          </div>
         </div>
 
         {error && (
-          <div className="mb-4 p-3 bg-red-900/20 border border-red-900/50 rounded-md text-red-400 flex items-center gap-2">
+          <Alert variant="destructive" className="mb-4 bg-red-900/20 border-red-900/50">
             <AlertTriangle className="h-4 w-4" />
-            <span>{error}</span>
-          </div>
+            <AlertDescription>
+              <div className="space-y-2">
+                <div className="font-bold">Erro de Conexão:</div>
+                <div>{error}</div>
+                {connectionStatus && !connectionStatus.success && (
+                  <div className="mt-2 p-2 bg-red-900/10 rounded text-xs">
+                    <div className="font-bold">Detalhes técnicos:</div>
+                    <pre className="mt-1 overflow-auto">{JSON.stringify(connectionStatus, null, 2)}</pre>
+                  </div>
+                )}
+                <div className="mt-2">
+                  <Button
+                    size="sm"
+                    onClick={() => window.open("/diagnostico-supabase", "_blank")}
+                    className="bg-yellow-600 text-white hover:bg-yellow-700"
+                  >
+                    Abrir Diagnóstico
+                  </Button>
+                </div>
+              </div>
+            </AlertDescription>
+          </Alert>
         )}
 
         <Table>
