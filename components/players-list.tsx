@@ -16,6 +16,8 @@ import {
   Settings,
   Database,
   ExternalLink,
+  CheckCircle,
+  XCircle,
 } from "lucide-react"
 import { supabase } from "@/lib/supabase"
 import { toast } from "@/components/ui/use-toast"
@@ -32,63 +34,101 @@ export function PlayersList() {
   const [editedName, setEditedName] = useState("")
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
-  const [connectionStatus, setConnectionStatus] = useState(null)
+  const [healthStatus, setHealthStatus] = useState(null)
+  const [supabaseStatus, setSupabaseStatus] = useState(null)
   const [debugInfo, setDebugInfo] = useState(null)
 
   useEffect(() => {
-    fetchPlayers()
+    checkHealth()
   }, [])
 
-  const testConnection = async () => {
+  const checkHealth = async () => {
     try {
-      console.log("🔍 Testando conexão com Supabase...")
+      console.log("🏥 Verificando saúde da aplicação...")
 
-      const response = await fetch("/api/test-connection", {
+      const response = await fetch("/api/health", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
       })
 
-      console.log("📡 Status da resposta:", response.status)
-
-      // Verificar se a resposta é JSON válido
-      const contentType = response.headers.get("content-type")
-      console.log("📄 Content-Type:", contentType)
-
-      if (!contentType || !contentType.includes("application/json")) {
-        const textResponse = await response.text()
-        console.error("❌ Resposta não é JSON:", textResponse.substring(0, 500))
-        throw new Error(`Servidor retornou ${response.status}: ${textResponse.substring(0, 100)}...`)
+      if (!response.ok) {
+        throw new Error(`API Health retornou ${response.status}`)
       }
 
       const data = await response.json()
-      console.log("📊 Dados da conexão:", data)
+      console.log("✅ Health check:", data)
+      setHealthStatus(data)
 
-      setConnectionStatus(data)
-      setDebugInfo({
-        url: "/api/test-connection",
-        status: response.status,
-        contentType,
-        timestamp: new Date().toISOString(),
+      // Se a API está funcionando, testar Supabase
+      if (data.status === "ok") {
+        await testSupabase()
+      }
+    } catch (err) {
+      console.error("💥 Erro no health check:", err)
+      setHealthStatus({
+        status: "error",
+        error: err.message,
+        api: { working: false },
+      })
+    }
+  }
+
+  const testSupabase = async () => {
+    try {
+      console.log("🔍 Testando Supabase...")
+
+      const response = await fetch("/api/supabase-test", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
       })
 
-      return data.success
+      const contentType = response.headers.get("content-type")
+
+      if (!contentType || !contentType.includes("application/json")) {
+        const textResponse = await response.text()
+        throw new Error(`API retornou ${response.status}: ${textResponse.substring(0, 100)}...`)
+      }
+
+      const data = await response.json()
+      console.log("📊 Teste Supabase:", data)
+      setSupabaseStatus(data)
+
+      // Se Supabase está OK, buscar jogadores
+      if (data.success) {
+        await fetchPlayersDirectly()
+      }
     } catch (err) {
-      console.error("💥 Erro ao testar conexão:", err)
-      const errorData = {
+      console.error("💥 Erro no teste Supabase:", err)
+      setSupabaseStatus({
         success: false,
         error: err.message,
-        type: err.name,
-        timestamp: new Date().toISOString(),
-      }
-      setConnectionStatus(errorData)
-      setDebugInfo({
-        error: err.message,
-        stack: err.stack,
-        timestamp: new Date().toISOString(),
+        apiError: true,
       })
-      return false
+    }
+  }
+
+  const fetchPlayersDirectly = async () => {
+    try {
+      console.log("👥 Buscando jogadores...")
+
+      const { data, error } = await supabase.from("players").select("*").order("name")
+
+      if (error) {
+        console.error("❌ Erro do Supabase:", error)
+        setError(`Erro do Supabase: ${error.message}`)
+        return
+      }
+
+      console.log(`✅ Encontrados ${data?.length || 0} jogadores`)
+      setPlayers(data || [])
+      setError(null)
+    } catch (err) {
+      console.error("💥 Erro ao buscar jogadores:", err)
+      setError(err.message || "Erro ao buscar jogadores")
     }
   }
 
@@ -96,30 +136,8 @@ export function PlayersList() {
     setLoading(true)
     setError(null)
 
-    try {
-      console.log("👥 Buscando jogadores do Supabase...")
-
-      // Primeiro, testar a conexão
-      const connectionOk = await testConnection()
-      if (!connectionOk) {
-        throw new Error("Falha na conexão com o banco de dados")
-      }
-
-      const { data, error } = await supabase.from("players").select("*").order("name")
-
-      if (error) {
-        console.error("❌ Erro do Supabase:", error)
-        throw new Error(`Erro do Supabase: ${error.message}`)
-      }
-
-      console.log(`✅ Encontrados ${data?.length || 0} jogadores`)
-      setPlayers(data || [])
-    } catch (err) {
-      console.error("💥 Erro ao buscar jogadores:", err)
-      setError(err.message || "Erro ao buscar jogadores")
-    } finally {
-      setLoading(false)
-    }
+    await checkHealth()
+    setLoading(false)
   }
 
   const handleRefresh = async () => {
@@ -274,30 +292,85 @@ export function PlayersList() {
     }
   }
 
-  const getErrorType = () => {
-    if (!connectionStatus || connectionStatus.success) return null
+  const getMainError = () => {
+    if (healthStatus?.status === "error") {
+      return {
+        type: "api",
+        message: "APIs não estão funcionando",
+        details: healthStatus.error,
+      }
+    }
 
-    if (connectionStatus.needsConfiguration) {
-      return "config"
+    if (supabaseStatus && !supabaseStatus.success) {
+      if (supabaseStatus.needsConfiguration) {
+        return {
+          type: "config",
+          message: "Variáveis de ambiente não configuradas",
+          details: `Faltando: ${supabaseStatus.missingVars?.join(", ")}`,
+        }
+      }
+      if (supabaseStatus.needsSetup) {
+        return {
+          type: "setup",
+          message: "Tabelas do banco não existem",
+          details: supabaseStatus.error,
+        }
+      }
+      if (supabaseStatus.apiError) {
+        return {
+          type: "api",
+          message: "Erro na API do Supabase",
+          details: supabaseStatus.error,
+        }
+      }
+      return {
+        type: "supabase",
+        message: "Erro do Supabase",
+        details: supabaseStatus.error,
+      }
     }
-    if (connectionStatus.needsSetup) {
-      return "setup"
+
+    if (error) {
+      return {
+        type: "unknown",
+        message: "Erro desconhecido",
+        details: error,
+      }
     }
-    if (connectionStatus.supabaseError) {
-      return "supabase"
-    }
-    return "unknown"
+
+    return null
   }
 
-  const renderErrorSolution = () => {
-    const errorType = getErrorType()
+  const mainError = getMainError()
 
-    switch (errorType) {
+  const renderErrorSolution = () => {
+    if (!mainError) return null
+
+    switch (mainError.type) {
+      case "api":
+        return (
+          <div className="space-y-3">
+            <div className="font-bold text-red-400">❌ {mainError.message}</div>
+            <div className="text-sm">{mainError.details}</div>
+            <div className="text-xs text-gray-400">
+              Isso geralmente indica um problema de deploy ou roteamento no Vercel.
+            </div>
+            <Button
+              size="sm"
+              onClick={() => window.open("https://vercel.com/dashboard", "_blank")}
+              className="bg-blue-600 text-white hover:bg-blue-700"
+            >
+              <ExternalLink className="h-4 w-4 mr-2" />
+              Verificar Deploy no Vercel
+            </Button>
+          </div>
+        )
+
       case "config":
         return (
           <div className="space-y-3">
-            <div className="font-bold text-red-400">❌ Variáveis de ambiente não configuradas</div>
-            <div className="text-sm">Variáveis faltando: {connectionStatus.missingVars?.join(", ")}</div>
+            <div className="font-bold text-yellow-400">⚠️ {mainError.message}</div>
+            <div className="text-sm">{mainError.details}</div>
             <div className="flex gap-2">
               <Button
                 size="sm"
@@ -321,8 +394,8 @@ export function PlayersList() {
       case "setup":
         return (
           <div className="space-y-3">
-            <div className="font-bold text-yellow-400">⚠️ Tabelas não existem</div>
-            <div className="text-sm">As tabelas do banco de dados precisam ser criadas no Supabase.</div>
+            <div className="font-bold text-yellow-400">⚠️ {mainError.message}</div>
+            <div className="text-sm">{mainError.details}</div>
             <div className="flex gap-2">
               <Button
                 size="sm"
@@ -343,22 +416,11 @@ export function PlayersList() {
           </div>
         )
 
-      case "supabase":
-        return (
-          <div className="space-y-3">
-            <div className="font-bold text-red-400">❌ Erro do Supabase</div>
-            <div className="text-sm">
-              Código: {connectionStatus.code} - {connectionStatus.error}
-            </div>
-            {connectionStatus.hint && <div className="text-xs text-gray-400">Dica: {connectionStatus.hint}</div>}
-          </div>
-        )
-
       default:
         return (
           <div className="space-y-3">
-            <div className="font-bold text-red-400">❌ Erro desconhecido</div>
-            <div className="text-sm">{error}</div>
+            <div className="font-bold text-red-400">❌ {mainError.message}</div>
+            <div className="text-sm">{mainError.details}</div>
           </div>
         )
     }
@@ -401,21 +463,40 @@ export function PlayersList() {
           </div>
         </div>
 
-        {error && (
+        {/* Status da aplicação */}
+        {healthStatus && (
+          <div className="mb-4 p-3 border border-blue-900/30 rounded-md bg-blue-900/10">
+            <div className="flex items-center gap-2 mb-2">
+              {healthStatus.status === "ok" ? (
+                <CheckCircle className="h-4 w-4 text-green-400" />
+              ) : (
+                <XCircle className="h-4 w-4 text-red-400" />
+              )}
+              <span className="font-bold">
+                Status da API: {healthStatus.status === "ok" ? "Funcionando" : "Com problemas"}
+              </span>
+            </div>
+            {healthStatus.environment && (
+              <div className="text-xs text-gray-400">
+                Variáveis configuradas: {Object.values(healthStatus.environment.variables).filter(Boolean).length}/3
+              </div>
+            )}
+          </div>
+        )}
+
+        {mainError && (
           <Alert variant="destructive" className="mb-4 bg-red-900/20 border-red-900/50">
             <AlertTriangle className="h-4 w-4" />
             <AlertDescription>
               <div className="space-y-4">
                 {renderErrorSolution()}
 
-                {debugInfo && (
-                  <details className="mt-4">
-                    <summary className="cursor-pointer text-xs font-bold">Detalhes técnicos</summary>
-                    <pre className="mt-2 p-2 bg-black/30 rounded text-xs overflow-auto">
-                      {JSON.stringify({ connectionStatus, debugInfo }, null, 2)}
-                    </pre>
-                  </details>
-                )}
+                <details className="mt-4">
+                  <summary className="cursor-pointer text-xs font-bold">Detalhes técnicos</summary>
+                  <pre className="mt-2 p-2 bg-black/30 rounded text-xs overflow-auto">
+                    {JSON.stringify({ healthStatus, supabaseStatus, error }, null, 2)}
+                  </pre>
+                </details>
               </div>
             </AlertDescription>
           </Alert>
@@ -435,13 +516,13 @@ export function PlayersList() {
               <TableRow>
                 <TableCell colSpan={3} className="text-center">
                   <Loader2 className="mr-2 h-4 w-4 animate-spin inline-block" />
-                  Carregando jogadores...
+                  Verificando sistema...
                 </TableCell>
               </TableRow>
-            ) : error ? (
+            ) : mainError ? (
               <TableRow>
                 <TableCell colSpan={3} className="text-center text-red-500">
-                  Falha na conexão com o banco de dados
+                  {mainError.message}
                 </TableCell>
               </TableRow>
             ) : players.length === 0 ? (
