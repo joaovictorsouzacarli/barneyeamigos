@@ -1,0 +1,384 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+
+    --primary: 262 83% 58%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 220 13% 9%;
+    --foreground: 0 0% 95%;
+
+    --card: 220 13% 11%;
+    --card-foreground: 0 0% 95%;
+
+    --popover: 220 13% 11%;
+    --popover-foreground: 0 0% 95%;
+
+    --primary: 262 83% 58%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 13% 15%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 220 13% 15%;
+    --muted-foreground: 0 0% 70%;
+
+    --accent: 220 13% 15%;
+    --accent-foreground: 0 0% 95%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 220 13% 20%;
+    --input: 220 13% 20%;
+    --ring: 262 83% 58%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Estilização personalizada para o tema Barney */
+body {
+  background-color: #1f1f23; /* Cinza escuro neutro */
+  color: #e5e5e5; /* Texto claro para boa legibilidade */
+}
+
+/* Cores específicas para elementos importantes - MODO ESCURO */
+.player-name {
+  color: #ffffff !important; /* Branco puro para nomes de jogadores */
+}
+
+.primary-text {
+  color: #8b5cf6; /* Roxo do Barney para textos principais */
+}
+
+.secondary-text {
+  color: #a1a1aa; /* Cinza claro para textos secundários */
+}
+
+/* Efeito de brilho para elementos importantes */
+.glow {
+  text-shadow: 0 0 10px #8b5cf6, 0 0 20px #8b5cf6;
+}
+
+/* Estilos para o modo leitura (claro) */
+.light-mode {
+  /* Cores de fundo e texto */
+  background-color: #ffffff !important;
+  color: #1f2937 !important;
+}
+
+/* Ajustes para elementos específicos no modo leitura */
+.light-mode body {
+  background-color: #ffffff !important;
+  color: #1f2937 !important;
+}
+
+/* Ajustes para a página principal no modo leitura */
+.light-mode main {
+  background-color: #ffffff !important;
+  color: #1f2937 !important;
+}
+\
+.light-mode .bg-\[#1f1f23\] {
+  background-color: #ffffff !important;
+}
+
+.light-mode .text-\[#8B5CF6\] {
+  color: #6b21a8 !important;
+}
+
+/* Cores específicas para elementos importantes - MODO CLARO */
+.light-mode .player-name {
+  color: #111827 !important; /* Cinza muito escuro para nomes de jogadores no modo claro */
+}
+
+.light-mode .primary-text {
+  color: #6b21a8 !important; /* Roxo escuro para textos principais */
+}
+
+.light-mode .secondary-text {
+  color: #6b7280 !important; /* Cinza médio para textos secundários */
+}
+
+/* Ajustes para header e footer no modo leitura */
+.light-mode header,
+.light-mode footer {
+  background-color: #faf5ff !important;
+  border-color: rgba(107, 33, 168, 0.2) !important;
+}
+
+.light-mode .bg-\[#2a2a2e\] {
+  background-color: #faf5ff !important;
+}
+
+.light-mode .border-gray-700\/50 {
+  border-color: rgba(107, 33, 168, 0.2) !important;
+}
+
+/* Ajustes para cards no modo leitura */
+.light-mode .card,
+.light-mode .bg-gray-dark,
+.light-mode .bg-gray-dark\/50,
+.light-mode .bg-gray-dark\/30,
+.light-mode .bg-gray-dark\/80 {
+  background-color: #fefcff !important;
+  border-color: rgba(107, 33, 168, 0.2) !important;
+}
+
+.light-mode .border-purple-900\/50 {
+  border-color: rgba(107, 33, 168, 0.2) !important;
+}
+
+.light-mode .bg-\[\#8B5CF6\] {
+  background-color: #6b21a8 !important;
+}
+
+.light-mode .hover\:bg-\[\#8B5CF6\]\/80:hover {
+  background-color: rgba(107, 33, 168, 0.8) !important;
+}
+
+.light-mode .hover\:bg-\[\#8B5CF6\]\/10:hover {
+  background-color: rgba(107, 33, 168, 0.1) !important;
+}
+
+.light-mode .hover\:bg-purple-900\/20:hover {
+  background-color: rgba(107, 33, 168, 0.1) !important;
+}
+
+.light-mode .data-\[state\=active\]\:bg-\[\#8B5CF6\][data-state="active"] {
+  background-color: #6b21a8 !important;
+}
+
+/* Manter o texto branco em botões roxos */
+.light-mode .bg-\[\#8B5CF6\] {
+  color: white !important;
+}
+
+/* Ajustes para tabelas */
+.light-mode .hover\:bg-purple-950\/10:hover {
+  background-color: rgba(107, 33, 168, 0.05) !important;
+}
+
+.light-mode .border-purple-900\/30 {
+  border-color: rgba(107, 33, 168, 0.1) !important;
+}
+
+/* Ajustes específicos para cards no modo claro */
+.light-mode .border-gray-600\/50 {
+  border-color: rgba(107, 33, 168, 0.2) !important;
+}
+
+.light-mode .bg-\[#2a2a2e\]\/50 {
+  background-color: #f8fafc !important;
+  border-color: rgba(107, 33, 168, 0.2) !important;
+}
+
+.light-mode .bg-\[#1f1f23\]\/50 {
+  background-color: #f1f5f9 !important;
+}
+
+.light-mode .border-gray-600\/30 {
+  border-color: rgba(107, 33, 168, 0.15) !important;
+}
+
+/* Ajustes para elementos de destaque no modo claro */
+.light-mode .bg-\[\#8B5CF6\]\/10 {
+  background-color: rgba(107, 33, 168, 0.08) !important;
+}
+
+/* Ajustes para skeletons no modo claro */
+.light-mode .bg-gray-300 {
+  background-color: #e2e8f0 !important;
+}
+
+/* Ajustes específicos para o painel administrativo */
+
+/* Modo escuro - painel admin */
+.admin-layout .player-name,
+.admin-layout .text-lg,
+.admin-layout .text-xl,
+.admin-layout .font-bold {
+  color: #ffffff !important;
+}
+
+.admin-layout .text-sm,
+.admin-layout .secondary-text {
+  color: #d1d5db !important;
+}
+
+.admin-layout .primary-text {
+  color: #8b5cf6 !important;
+}
+
+/* Modo claro - painel admin */
+.light-mode .admin-layout .player-name,
+.light-mode .admin-layout .text-lg,
+.light-mode .admin-layout .text-xl,
+.light-mode .admin-layout .font-bold {
+  color: #111827 !important;
+}
+
+.light-mode .admin-layout .text-sm,
+.light-mode .admin-layout .secondary-text {
+  color: #4b5563 !important;
+}
+
+.light-mode .admin-layout .primary-text {
+  color: #6b21a8 !important;
+}
+
+/* Ajustes para tabelas no painel admin */
+.admin-layout .table-cell,
+.admin-layout td,
+.admin-layout th {
+  color: #ffffff;
+}
+
+.light-mode .admin-layout .table-cell,
+.light-mode .admin-layout td,
+.light-mode .admin-layout th {
+  color: #111827;
+}
+
+/* Ajustes para cards no painel admin */
+.admin-layout .card-title {
+  color: #8b5cf6 !important;
+}
+
+.light-mode .admin-layout .card-title {
+  color: #6b21a8 !important;
+}
+
+/* Ajustes para inputs e selects no painel admin */
+.admin-layout input,
+.admin-layout select,
+.admin-layout textarea {
+  color: #ffffff;
+}
+
+.light-mode .admin-layout input,
+.light-mode .admin-layout select,
+.light-mode .admin-layout textarea {
+  color: #111827;
+}
+
+/* Ajustes para labels no painel admin */
+.admin-layout label {
+  color: #d1d5db;
+}
+
+.light-mode .admin-layout label {
+  color: #374151;
+}
+
+/* Ajustes para badges no painel admin */
+.admin-layout .badge {
+  color: #ffffff !important;
+}
+
+/* Ajustes para botões no painel admin */
+.admin-layout .btn-ghost {
+  color: #d1d5db;
+}
+
+.light-mode .admin-layout .btn-ghost {
+  color: #4b5563;
+}
+
+/* Ajustes para texto de descrição no painel admin */
+.admin-layout .text-muted,
+.admin-layout .text-gray-500,
+.admin-layout .text-gray-400 {
+  color: #9ca3af !important;
+}
+
+.light-mode .admin-layout .text-muted,
+.light-mode .admin-layout .text-gray-500,
+.light-mode .admin-layout .text-gray-400 {
+  color: #6b7280 !important;
+}
+
+/* Ajustes específicos para títulos principais */
+.light-mode h1 {
+  color: #111827 !important;
+}
+
+/* Ajustes para gradientes no modo claro */
+.light-mode .bg-gradient-to-b {
+  background: linear-gradient(to bottom, #ffffff, #f8fafc) !important;
+}
+
+/* Ajustes para elementos com cores específicas do Tailwind */
+.light-mode .text-\[\#8B5CF6\]\/70 {
+  color: rgba(107, 33, 168, 0.7) !important;
+}
+
+/* Ajustes para elementos black no modo claro */
+.light-mode .bg-black {
+  background-color: #ffffff !important;
+}
+
+.light-mode .border-blue-900\/50 {
+  border-color: rgba(107, 33, 168, 0.2) !important;
+}
+
+.light-mode .text-\[\#00c8ff\] {
+  color: #6b21a8 !important;
+}
+
+.light-mode .bg-black\/50 {
+  background-color: #f8fafc !important;
+}
+
+.light-mode .bg-black\/30 {
+  background-color: #f1f5f9 !important;
+}
