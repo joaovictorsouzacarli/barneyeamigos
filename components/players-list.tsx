@@ -5,7 +5,18 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Edit, Trash2, Loader2, RefreshCw, AlertTriangle, Save, X, Settings, Database } from "lucide-react"
+import {
+  Edit,
+  Trash2,
+  Loader2,
+  RefreshCw,
+  AlertTriangle,
+  Save,
+  X,
+  Settings,
+  Database,
+  ExternalLink,
+} from "lucide-react"
 import { supabase } from "@/lib/supabase"
 import { toast } from "@/components/ui/use-toast"
 import { Toaster } from "@/components/ui/toaster"
@@ -22,6 +33,7 @@ export function PlayersList() {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
   const [connectionStatus, setConnectionStatus] = useState(null)
+  const [debugInfo, setDebugInfo] = useState(null)
 
   useEffect(() => {
     fetchPlayers()
@@ -29,15 +41,53 @@ export function PlayersList() {
 
   const testConnection = async () => {
     try {
-      console.log("Testando conexão com Supabase...")
-      const response = await fetch("/api/test-connection")
+      console.log("🔍 Testando conexão com Supabase...")
+
+      const response = await fetch("/api/test-connection", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+
+      console.log("📡 Status da resposta:", response.status)
+
+      // Verificar se a resposta é JSON válido
+      const contentType = response.headers.get("content-type")
+      console.log("📄 Content-Type:", contentType)
+
+      if (!contentType || !contentType.includes("application/json")) {
+        const textResponse = await response.text()
+        console.error("❌ Resposta não é JSON:", textResponse.substring(0, 500))
+        throw new Error(`Servidor retornou ${response.status}: ${textResponse.substring(0, 100)}...`)
+      }
+
       const data = await response.json()
+      console.log("📊 Dados da conexão:", data)
+
       setConnectionStatus(data)
-      console.log("Status da conexão:", data)
+      setDebugInfo({
+        url: "/api/test-connection",
+        status: response.status,
+        contentType,
+        timestamp: new Date().toISOString(),
+      })
+
       return data.success
     } catch (err) {
-      console.error("Erro ao testar conexão:", err)
-      setConnectionStatus({ success: false, error: err.message })
+      console.error("💥 Erro ao testar conexão:", err)
+      const errorData = {
+        success: false,
+        error: err.message,
+        type: err.name,
+        timestamp: new Date().toISOString(),
+      }
+      setConnectionStatus(errorData)
+      setDebugInfo({
+        error: err.message,
+        stack: err.stack,
+        timestamp: new Date().toISOString(),
+      })
       return false
     }
   }
@@ -47,7 +97,7 @@ export function PlayersList() {
     setError(null)
 
     try {
-      console.log("Buscando jogadores do Supabase...")
+      console.log("👥 Buscando jogadores do Supabase...")
 
       // Primeiro, testar a conexão
       const connectionOk = await testConnection()
@@ -58,14 +108,14 @@ export function PlayersList() {
       const { data, error } = await supabase.from("players").select("*").order("name")
 
       if (error) {
-        console.error("Erro do Supabase:", error)
+        console.error("❌ Erro do Supabase:", error)
         throw new Error(`Erro do Supabase: ${error.message}`)
       }
 
-      console.log(`Encontrados ${data?.length || 0} jogadores`)
+      console.log(`✅ Encontrados ${data?.length || 0} jogadores`)
       setPlayers(data || [])
     } catch (err) {
-      console.error("Erro ao buscar jogadores:", err)
+      console.error("💥 Erro ao buscar jogadores:", err)
       setError(err.message || "Erro ao buscar jogadores")
     } finally {
       setLoading(false)
@@ -224,6 +274,96 @@ export function PlayersList() {
     }
   }
 
+  const getErrorType = () => {
+    if (!connectionStatus || connectionStatus.success) return null
+
+    if (connectionStatus.needsConfiguration) {
+      return "config"
+    }
+    if (connectionStatus.needsSetup) {
+      return "setup"
+    }
+    if (connectionStatus.supabaseError) {
+      return "supabase"
+    }
+    return "unknown"
+  }
+
+  const renderErrorSolution = () => {
+    const errorType = getErrorType()
+
+    switch (errorType) {
+      case "config":
+        return (
+          <div className="space-y-3">
+            <div className="font-bold text-red-400">❌ Variáveis de ambiente não configuradas</div>
+            <div className="text-sm">Variáveis faltando: {connectionStatus.missingVars?.join(", ")}</div>
+            <div className="flex gap-2">
+              <Button
+                size="sm"
+                onClick={() => window.open("https://vercel.com/dashboard", "_blank")}
+                className="bg-blue-600 text-white hover:bg-blue-700"
+              >
+                <ExternalLink className="h-4 w-4 mr-2" />
+                Configurar no Vercel
+              </Button>
+              <Button
+                size="sm"
+                onClick={() => window.open("/verificar-env", "_blank")}
+                className="bg-yellow-600 text-white hover:bg-yellow-700"
+              >
+                Verificar Variáveis
+              </Button>
+            </div>
+          </div>
+        )
+
+      case "setup":
+        return (
+          <div className="space-y-3">
+            <div className="font-bold text-yellow-400">⚠️ Tabelas não existem</div>
+            <div className="text-sm">As tabelas do banco de dados precisam ser criadas no Supabase.</div>
+            <div className="flex gap-2">
+              <Button
+                size="sm"
+                onClick={() => window.open("https://supabase.com/dashboard", "_blank")}
+                className="bg-green-600 text-white hover:bg-green-700"
+              >
+                <ExternalLink className="h-4 w-4 mr-2" />
+                Abrir Supabase
+              </Button>
+              <Button
+                size="sm"
+                onClick={() => window.open("/diagnostico-supabase", "_blank")}
+                className="bg-yellow-600 text-white hover:bg-yellow-700"
+              >
+                Ver SQL
+              </Button>
+            </div>
+          </div>
+        )
+
+      case "supabase":
+        return (
+          <div className="space-y-3">
+            <div className="font-bold text-red-400">❌ Erro do Supabase</div>
+            <div className="text-sm">
+              Código: {connectionStatus.code} - {connectionStatus.error}
+            </div>
+            {connectionStatus.hint && <div className="text-xs text-gray-400">Dica: {connectionStatus.hint}</div>}
+          </div>
+        )
+
+      default:
+        return (
+          <div className="space-y-3">
+            <div className="font-bold text-red-400">❌ Erro desconhecido</div>
+            <div className="text-sm">{error}</div>
+          </div>
+        )
+    }
+  }
+
   return (
     <Card className="border-blue-900/50 bg-black/30">
       <CardContent className="pt-6">
@@ -265,24 +405,17 @@ export function PlayersList() {
           <Alert variant="destructive" className="mb-4 bg-red-900/20 border-red-900/50">
             <AlertTriangle className="h-4 w-4" />
             <AlertDescription>
-              <div className="space-y-2">
-                <div className="font-bold">Erro de Conexão:</div>
-                <div>{error}</div>
-                {connectionStatus && !connectionStatus.success && (
-                  <div className="mt-2 p-2 bg-red-900/10 rounded text-xs">
-                    <div className="font-bold">Detalhes técnicos:</div>
-                    <pre className="mt-1 overflow-auto">{JSON.stringify(connectionStatus, null, 2)}</pre>
-                  </div>
+              <div className="space-y-4">
+                {renderErrorSolution()}
+
+                {debugInfo && (
+                  <details className="mt-4">
+                    <summary className="cursor-pointer text-xs font-bold">Detalhes técnicos</summary>
+                    <pre className="mt-2 p-2 bg-black/30 rounded text-xs overflow-auto">
+                      {JSON.stringify({ connectionStatus, debugInfo }, null, 2)}
+                    </pre>
+                  </details>
                 )}
-                <div className="mt-2">
-                  <Button
-                    size="sm"
-                    onClick={() => window.open("/diagnostico-supabase", "_blank")}
-                    className="bg-yellow-600 text-white hover:bg-yellow-700"
-                  >
-                    Abrir Diagnóstico
-                  </Button>
-                </div>
               </div>
             </AlertDescription>
           </Alert>
@@ -308,7 +441,7 @@ export function PlayersList() {
             ) : error ? (
               <TableRow>
                 <TableCell colSpan={3} className="text-center text-red-500">
-                  {error}
+                  Falha na conexão com o banco de dados
                 </TableCell>
               </TableRow>
             ) : players.length === 0 ? (
