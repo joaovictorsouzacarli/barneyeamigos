@@ -136,8 +136,7 @@ body {
   color: #6b21a8 !important;
 }
 
-/* Cores específicas para elementos importantes - MODO CLARO */
-.light-mode .player-name {
+/* Cores específicas para elementos importantes - MODO CLARO */ ht-mode .player-name {
   color: #111827 !important; /* Cinza muito escuro para nomes de jogadores no modo claro */
 }
 
@@ -146,7 +145,7 @@ body {
 }
 
 .light-mode .secondary-text {
-  color: #6b7280 !important; /* Cinza médio para textos secundários */
+  color: #374151 !important; /* Cinza mais escuro para textos secundários - ALTERADO */
 }
 
 /* Ajustes para header e footer no modo leitura */
@@ -267,9 +266,18 @@ body {
   color: #111827 !important;
 }
 
+.light-mode .text-sm,
+.light-mode .text-xs {
+  color: #374151 !important; /* Cinza mais escuro para textos pequenos */
+}
+
+.light-mode .text-\[\#8B5CF6\]\/70 {
+  color: rgba(55, 65, 81, 0.8) !important; /* Cinza escuro com transparência */
+}
+
 .light-mode .admin-layout .text-sm,
 .light-mode .admin-layout .secondary-text {
-  color: #4b5563 !important;
+  color: #374151 !important; /* Cinza mais escuro no painel admin */
 }
 
 .light-mode .admin-layout .primary-text {
@@ -344,7 +352,7 @@ body {
 .light-mode .admin-layout .text-muted,
 .light-mode .admin-layout .text-gray-500,
 .light-mode .admin-layout .text-gray-400 {
-  color: #6b7280 !important;
+  color: #4b5563 !important; /* Cinza médio para textos auxiliares */
 }
 
 /* Ajustes específicos para títulos principais */

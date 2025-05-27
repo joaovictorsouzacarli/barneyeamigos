@@ -3,17 +3,12 @@ import { NextResponse } from "next/server"
 // Credenciais fixas dos administradores
 const ADMIN_USERS = [
   {
-    username: "TioBarney",
-    password: "javalol",
-    role: "admin",
-  },
-  {
-    username: "delimb",
+    username: "admin",
     password: "admin123",
     role: "admin",
   },
   {
-    username: "Bacon",
+    username: "bacon",
     password: "admin123",
     role: "admin",
   },
