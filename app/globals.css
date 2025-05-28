@@ -270,6 +270,129 @@ select {
 }
 
 /* ========================================
+   CORREÇÃO ESPECÍFICA PARA DROPDOWNS
+======================================== */
+
+/* Corrigir especificamente os dropdowns de seleção */
+[data-radix-select-content],
+.select-content,
+.SelectContent {
+  background-color: #1e293b !important; /* Slate 800 - fundo escuro consistente */
+  border-color: #475569 !important; /* Slate 600 - borda visível */
+  color: #f1f5f9 !important; /* Slate 100 - texto claro */
+}
+
+/* Corrigir os itens dentro dos dropdowns */
+[data-radix-select-item],
+.select-item,
+.SelectItem {
+  background-color: transparent !important;
+  color: #f1f5f9 !important; /* Slate 100 - texto claro */
+  padding: 8px 12px !important;
+}
+
+/* Hover nos itens do dropdown */
+[data-radix-select-item]:hover,
+.select-item:hover,
+.SelectItem:hover,
+[data-radix-select-item][data-highlighted],
+.select-item[data-highlighted],
+.SelectItem[data-highlighted] {
+  background-color: #334155 !important; /* Slate 700 - fundo hover */
+  color: #ffffff !important; /* Branco puro no hover */
+}
+
+/* Corrigir o trigger (botão que abre o dropdown) */
+[data-radix-select-trigger],
+.select-trigger,
+.SelectTrigger {
+  background-color: rgba(15, 23, 42, 0.8) !important; /* Slate 900 com transparência */
+  border-color: #475569 !important; /* Slate 600 */
+  color: #f1f5f9 !important; /* Slate 100 */
+}
+
+/* Corrigir o valor selecionado no trigger */
+[data-radix-select-value],
+.select-value,
+.SelectValue {
+  color: #f1f5f9 !important; /* Slate 100 */
+}
+
+/* Corrigir especificamente para o componente shadcn/ui */
+.bg-black.border-blue-900\/50,
+.bg-\[#2a2a2e\].border-gray-600\/50 {
+  background-color: #1e293b !important; /* Slate 800 */
+  color: #f1f5f9 !important;
+}
+
+/* Garantir que todos os textos em elementos com fundo escuro sejam claros */
+.bg-black *,
+.bg-\[#2a2a2e\] *,
+.bg-\[#1f1f23\] * {
+  color: #f1f5f9 !important;
+}
+
+/* Exceções para elementos que devem manter cores específicas */
+.bg-black .bg-red-500,
+.bg-black .bg-purple-500,
+.bg-black .bg-blue-500,
+.bg-black .bg-orange-500,
+.bg-black .bg-green-500,
+.bg-black .bg-cyan-500,
+.bg-black .bg-pink-500,
+.bg-black .bg-yellow-500,
+.bg-black .bg-green-600,
+.bg-black .bg-indigo-500 {
+  color: #ffffff !important; /* Manter texto branco em badges coloridos */
+}
+
+/* Corrigir especificamente os spans com nomes de classes */
+.select-item span,
+.SelectItem span,
+[data-radix-select-item] span {
+  color: #f1f5f9 !important;
+  font-weight: 500;
+}
+
+/* Modo claro - reverter as alterações para dropdowns */
+.light-mode [data-radix-select-content],
+.light-mode .select-content,
+.light-mode .SelectContent {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  color: #0f172a !important;
+}
+
+.light-mode [data-radix-select-item],
+.light-mode .select-item,
+.light-mode .SelectItem {
+  color: #0f172a !important;
+}
+
+.light-mode [data-radix-select-item]:hover,
+.light-mode .select-item:hover,
+.light-mode .SelectItem:hover,
+.light-mode [data-radix-select-item][data-highlighted],
+.light-mode .select-item[data-highlighted],
+.light-mode .SelectItem[data-highlighted] {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+.light-mode [data-radix-select-trigger],
+.light-mode .select-trigger,
+.light-mode .SelectTrigger {
+  background-color: #ffffff !important;
+  border-color: #d1d5db !important;
+  color: #0f172a !important;
+}
+
+.light-mode [data-radix-select-value],
+.light-mode .select-value,
+.light-mode .SelectValue {
+  color: #0f172a !important;
+}
+/* ========================================
    NOVO ESQUEMA DE CORES - MODO LEITURA
 ======================================== */
 
