@@ -806,3 +806,116 @@ a:hover {
 .light-mode .bg-green-600 {
   color: #ffffff !important; /* Texto branco em botões coloridos no modo claro */
 }
+
+/* ========================================
+   CORREÇÃO FORÇADA PARA DROPDOWNS - MÁXIMA PRIORIDADE
+======================================== */
+
+/* Forçar fundo claro e texto escuro em TODOS os dropdowns */
+[role="listbox"],
+[role="option"],
+.select-content,
+.SelectContent,
+[data-radix-select-content],
+div[data-radix-popper-content-wrapper] > div,
+div[data-side="bottom"] {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border: 1px solid #d1d5db !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Forçar texto escuro em todos os itens do dropdown */
+[role="option"],
+.select-item,
+.SelectItem,
+[data-radix-select-item],
+[data-radix-select-item] span,
+.select-item span,
+.SelectItem span {
+  color: #000000 !important;
+  background-color: transparent !important;
+  padding: 8px 12px !important;
+  font-weight: 500 !important;
+}
+
+/* Hover nos itens - fundo cinza claro */
+[role="option"]:hover,
+.select-item:hover,
+.SelectItem:hover,
+[data-radix-select-item]:hover,
+[data-radix-select-item][data-highlighted],
+.select-item[data-highlighted],
+.SelectItem[data-highlighted] {
+  background-color: #f3f4f6 !important;
+  color: #000000 !important;
+}
+
+/* Forçar o trigger (botão) também com fundo claro */
+.select-trigger,
+.SelectTrigger,
+[data-radix-select-trigger] {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border: 1px solid #d1d5db !important;
+}
+
+/* Forçar o valor selecionado */
+.select-value,
+.SelectValue,
+[data-radix-select-value] {
+  color: #000000 !important;
+}
+
+/* Sobrescrever qualquer regra de fundo preto */
+.bg-black,
+div[style*="background-color: black"],
+div[style*="background: black"] {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+/* Regra específica para elementos com classes do Tailwind */
+.bg-black.border-blue-900\/50,
+.bg-black.border-gray-600\/50,
+.bg-\[#2a2a2e\].border-gray-600\/50 {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border-color: #d1d5db !important;
+}
+
+/* Garantir que todos os textos dentro de elementos com fundo preto sejam escuros */
+.bg-black *,
+.bg-\[#2a2a2e\] *,
+div[style*="background-color: black"] * {
+  color: #000000 !important;
+}
+
+/* Exceção apenas para badges coloridos que devem manter texto branco */
+.bg-black .bg-red-500 *,
+.bg-black .bg-purple-500 *,
+.bg-black .bg-blue-500 *,
+.bg-black .bg-orange-500 *,
+.bg-black .bg-green-500 *,
+.bg-black .bg-cyan-500 *,
+.bg-black .bg-pink-500 *,
+.bg-black .bg-yellow-500 *,
+.bg-black .bg-green-600 *,
+.bg-black .bg-indigo-500 * {
+  color: #ffffff !important;
+}
+
+/* Regra específica para o componente de seleção de classes */
+div[class*="bg-black"] div[class*="flex items-center gap-2"] span {
+  color: #000000 !important;
+  font-weight: 500 !important;
+}
+
+/* Forçar todos os spans dentro de dropdowns */
+[role="listbox"] span,
+[role="option"] span,
+.select-content span,
+.SelectContent span,
+[data-radix-select-content] span {
+  color: #000000 !important;
+}
