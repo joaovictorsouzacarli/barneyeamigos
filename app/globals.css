@@ -187,6 +187,88 @@ footer {
   color: white !important;
 }
 
+/* Adicione estas regras após as regras existentes do modo escuro */
+
+/* Garantir que todos os textos em botões no modo escuro sejam brancos */
+.data-\[state\=active\]\:text-black[data-state="active"],
+.text-black {
+  color: #ffffff !important; /* Forçar texto branco em elementos com texto preto */
+}
+
+/* Corrigir especificamente os botões e elementos de seleção */
+button,
+select,
+.select-trigger,
+.select-content,
+.tabs-trigger,
+.tabs-content {
+  color: #f1f5f9 !important; /* Slate 100 - texto claro para todos os elementos interativos */
+}
+
+/* Corrigir os botões ativos nas tabs */
+.data-\[state\=active\]\:bg-\[#00c8ff\][data-state="active"],
+.data-\[state\=active\]\:bg-\[#3b82f6\][data-state="active"] {
+  color: #0f172a !important; /* Texto escuro apenas nos botões com fundo claro/colorido */
+}
+
+/* Corrigir placeholders e textos em inputs */
+input::placeholder,
+textarea::placeholder,
+select::placeholder {
+  color: #94a3b8 !important; /* Slate 400 - cinza claro para placeholders */
+}
+
+/* Corrigir especificamente os dropdowns e menus */
+.bg-black, 
+.bg-\[#2a2a2e\], 
+.bg-\[#1f1f23\] {
+  color: #f1f5f9 !important; /* Garantir texto claro em fundos escuros */
+}
+
+/* Corrigir textos em selects e dropdowns */
+.select-item,
+.select-value,
+.select-trigger {
+  color: #f1f5f9 !important;
+}
+
+/* Corrigir especificamente os botões de filtro */
+.filter-button,
+.filter-dropdown {
+  color: #f1f5f9 !important;
+}
+
+/* Garantir que os textos nos cards sejam claros */
+.card,
+.card-content,
+.card-header,
+.card-footer {
+  color: #f1f5f9 !important;
+}
+
+/* Corrigir especificamente os botões com fundo azul/colorido */
+.bg-\[#00c8ff\], 
+.bg-\[#3b82f6\], 
+.bg-blue-600, 
+.bg-green-600 {
+  color: #0f172a !important; /* Texto escuro em botões coloridos para melhor contraste */
+}
+
+/* Corrigir especificamente os textos nos selects */
+.SelectTrigger,
+.SelectValue,
+.SelectContent,
+.SelectItem {
+  color: #f1f5f9 !important;
+}
+
+/* Garantir que os textos nos inputs sejam claros */
+input,
+textarea,
+select {
+  color: #f1f5f9 !important;
+}
+
 /* ========================================
    NOVO ESQUEMA DE CORES - MODO LEITURA
 ======================================== */
@@ -570,4 +652,34 @@ a:hover {
 
 .light-mode ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
+}
+
+/* Modo claro - reverter as alterações */
+.light-mode button,
+.light-mode select,
+.light-mode .select-trigger,
+.light-mode .select-content,
+.light-mode .tabs-trigger,
+.light-mode .tabs-content {
+  color: #0f172a !important; /* Texto escuro no modo claro */
+}
+
+.light-mode input,
+.light-mode textarea,
+.light-mode select {
+  color: #0f172a !important;
+}
+
+.light-mode .select-item,
+.light-mode .select-value,
+.light-mode .select-trigger {
+  color: #0f172a !important;
+}
+
+/* Corrigir especificamente os botões com fundo azul/colorido no modo claro */
+.light-mode .bg-\[#00c8ff\], 
+.light-mode .bg-\[#3b82f6\], 
+.light-mode .bg-blue-600, 
+.light-mode .bg-green-600 {
+  color: #ffffff !important; /* Texto branco em botões coloridos no modo claro */
 }
