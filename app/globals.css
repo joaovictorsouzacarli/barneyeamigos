@@ -85,163 +85,231 @@ body {
   }
 }
 
-/* Estilização personalizada para o tema Barney */
+/* ========================================
+   NOVO ESQUEMA DE CORES - MODO ESCURO
+======================================== */
+
+/* Cores base para o modo escuro */
 body {
-  background-color: #1f1f23; /* Cinza escuro neutro */
-  color: #e5e5e5; /* Texto claro para boa legibilidade */
+  background-color: #0f172a; /* Slate 900 - mais suave que preto */
+  color: #f1f5f9; /* Slate 100 - texto claro e legível */
 }
 
-/* Cores específicas para elementos importantes - MODO ESCURO */
+/* Cores para elementos principais - MODO ESCURO */
 .player-name {
   color: #ffffff !important; /* Branco puro para nomes de jogadores */
+  font-weight: 600;
 }
 
 .primary-text {
-  color: #8b5cf6; /* Roxo do Barney para textos principais */
+  color: #3b82f6 !important; /* Blue 500 - azul vibrante */
+  font-weight: 500;
 }
 
 .secondary-text {
-  color: #a1a1aa; /* Cinza claro para textos secundários */
+  color: #94a3b8 !important; /* Slate 400 - cinza claro legível */
 }
 
-/* Efeito de brilho para elementos importantes */
-.glow {
-  text-shadow: 0 0 10px #8b5cf6, 0 0 20px #8b5cf6;
-}
-
-/* Estilos para o modo leitura (claro) */
-.light-mode {
-  /* Cores de fundo e texto */
-  background-color: #ffffff !important;
-  color: #1f2937 !important;
-}
-
-/* Ajustes para elementos específicos no modo leitura */
-.light-mode body {
-  background-color: #ffffff !important;
-  color: #1f2937 !important;
-}
-
-/* Ajustes para a página principal no modo leitura */
-.light-mode main {
-  background-color: #ffffff !important;
-  color: #1f2937 !important;
+/* Headers e footers no modo escuro */
+header,
+footer {
+  background-color: #1e293b !important; /* Slate 800 */
+  border-color: #334155 !important; /* Slate 700 */
 }
 \
+.bg-\[#1f1f23\] {
+  background-color: #0f172a !important; /* Slate 900 */
+}
+
+.bg-\[#2a2a2e\] {
+  background-color: #1e293b !important; /* Slate 800 */
+}
+
+.text-\[#8B5CF6\] {
+  color: #3b82f6 !important; /* Blue 500 */
+}
+
+/* Cards e containers no modo escuro */
+.border-gray-600\/50,
+.border-gray-700\/50 {
+  border-color: #475569 !important; /* Slate 600 */
+}
+
+.bg-\[#2a2a2e\]\/50,
+.bg-\[#2a2a2e\]\/80 {
+  background-color: rgba(30, 41, 59, 0.8) !important; /* Slate 800 com transparência */
+  backdrop-filter: blur(8px);
+}
+
+.bg-black\/50,
+.bg-black\/30 {
+  background-color: rgba(15, 23, 42, 0.8) !important; /* Slate 900 com transparência */
+}
+
+/* Botões no modo escuro */
+.bg-\[#8B5CF6\] {
+  background-color: #3b82f6 !important; /* Blue 500 */
+  color: white !important;
+}
+
+.hover\:bg-\[#8B5CF6\]\/80:hover {
+  background-color: #2563eb !important; /* Blue 600 */
+}
+
+.hover\:bg-\[#8B5CF6\]\/10:hover {
+  background-color: rgba(59, 130, 246, 0.1) !important;
+}
+
+/* Tabelas no modo escuro */
+.hover\:bg-blue-950\/10:hover,
+.hover\:bg-purple-950\/10:hover {
+  background-color: rgba(59, 130, 246, 0.05) !important;
+}
+
+.border-blue-900\/50,
+.border-purple-900\/50 {
+  border-color: rgba(59, 130, 246, 0.3) !important;
+}
+
+.border-blue-900\/30,
+.border-purple-900\/30 {
+  border-color: rgba(59, 130, 246, 0.2) !important;
+}
+
+/* Elementos de destaque no modo escuro */
+.bg-\[#8B5CF6\]\/10 {
+  background-color: rgba(59, 130, 246, 0.1) !important;
+}
+
+/* Tabs ativas no modo escuro */
+.data-\[state\=active\]\:bg-\[#8B5CF6\][data-state="active"] {
+  background-color: #3b82f6 !important;
+  color: white !important;
+}
+
+/* ========================================
+   NOVO ESQUEMA DE CORES - MODO LEITURA
+======================================== */
+
+/* Modo leitura (claro) */
+.light-mode {
+  background-color: #f8fafc !important; /* Slate 50 */
+  color: #0f172a !important; /* Slate 900 */
+}
+
+.light-mode body {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+.light-mode main {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+/* Cores para elementos principais - MODO CLARO */
+.light-mode .player-name {
+  color: #0f172a !important; /* Slate 900 - texto escuro */
+  font-weight: 600;
+}
+
+.light-mode .primary-text {
+  color: #1d4ed8 !important; /* Blue 700 - azul mais escuro */
+  font-weight: 500;
+}
+
+.light-mode .secondary-text {
+  color: #475569 !important; /* Slate 600 - cinza médio */
+}
+
+/* Headers e footers no modo claro */
+.light-mode header,
+.light-mode footer {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important; /* Slate 200 */
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
 .light-mode .bg-\[#1f1f23\] {
+  background-color: #f8fafc !important;
+}
+
+.light-mode .bg-\[#2a2a2e\] {
   background-color: #ffffff !important;
 }
 
 .light-mode .text-\[#8B5CF6\] {
-  color: #6b21a8 !important;
+  color: #1d4ed8 !important; /* Blue 700 */
 }
 
-/* Cores específicas para elementos importantes - MODO CLARO */ ht-mode .player-name {
-  color: #111827 !important; /* Cinza muito escuro para nomes de jogadores no modo claro */
-}
-
-.light-mode .primary-text {
-  color: #6b21a8 !important; /* Roxo escuro para textos principais */
-}
-
-.light-mode .secondary-text {
-  color: #374151 !important; /* Cinza mais escuro para textos secundários - ALTERADO */
-}
-
-/* Ajustes para header e footer no modo leitura */
-.light-mode header,
-.light-mode footer {
-  background-color: #faf5ff !important;
-  border-color: rgba(107, 33, 168, 0.2) !important;
-}
-
-.light-mode .bg-\[#2a2a2e\] {
-  background-color: #faf5ff !important;
-}
-
+/* Cards e containers no modo claro */
+.light-mode .border-gray-600\/50,
 .light-mode .border-gray-700\/50 {
-  border-color: rgba(107, 33, 168, 0.2) !important;
+  border-color: #e2e8f0 !important; /* Slate 200 */
 }
 
-/* Ajustes para cards no modo leitura */
-.light-mode .card,
-.light-mode .bg-gray-dark,
-.light-mode .bg-gray-dark\/50,
-.light-mode .bg-gray-dark\/30,
-.light-mode .bg-gray-dark\/80 {
-  background-color: #fefcff !important;
-  border-color: rgba(107, 33, 168, 0.2) !important;
+.light-mode .bg-\[#2a2a2e\]\/50,
+.light-mode .bg-\[#2a2a2e\]\/80 {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(8px);
+  border: 1px solid #e2e8f0;
 }
 
-.light-mode .border-purple-900\/50 {
-  border-color: rgba(107, 33, 168, 0.2) !important;
+.light-mode .bg-black\/50,
+.light-mode .bg-black\/30 {
+  background-color: rgba(248, 250, 252, 0.95) !important;
 }
 
-.light-mode .bg-\[\#8B5CF6\] {
-  background-color: #6b21a8 !important;
-}
-
-.light-mode .hover\:bg-\[\#8B5CF6\]\/80:hover {
-  background-color: rgba(107, 33, 168, 0.8) !important;
-}
-
-.light-mode .hover\:bg-\[\#8B5CF6\]\/10:hover {
-  background-color: rgba(107, 33, 168, 0.1) !important;
-}
-
-.light-mode .hover\:bg-purple-900\/20:hover {
-  background-color: rgba(107, 33, 168, 0.1) !important;
-}
-
-.light-mode .data-\[state\=active\]\:bg-\[\#8B5CF6\][data-state="active"] {
-  background-color: #6b21a8 !important;
-}
-
-/* Manter o texto branco em botões roxos */
-.light-mode .bg-\[\#8B5CF6\] {
+/* Botões no modo claro */
+.light-mode .bg-\[#8B5CF6\] {
+  background-color: #1d4ed8 !important; /* Blue 700 */
   color: white !important;
 }
 
-/* Ajustes para tabelas */
+.light-mode .hover\:bg-\[#8B5CF6\]\/80:hover {
+  background-color: #1e40af !important; /* Blue 800 */
+}
+
+.light-mode .hover\:bg-\[#8B5CF6\]\/10:hover {
+  background-color: rgba(29, 78, 216, 0.1) !important;
+}
+
+/* Tabelas no modo claro */
+.light-mode .hover\:bg-blue-950\/10:hover,
 .light-mode .hover\:bg-purple-950\/10:hover {
-  background-color: rgba(107, 33, 168, 0.05) !important;
+  background-color: rgba(29, 78, 216, 0.05) !important;
 }
 
+.light-mode .border-blue-900\/50,
+.light-mode .border-purple-900\/50 {
+  border-color: rgba(29, 78, 216, 0.2) !important;
+}
+
+.light-mode .border-blue-900\/30,
 .light-mode .border-purple-900\/30 {
-  border-color: rgba(107, 33, 168, 0.1) !important;
+  border-color: rgba(29, 78, 216, 0.1) !important;
 }
 
-/* Ajustes específicos para cards no modo claro */
-.light-mode .border-gray-600\/50 {
-  border-color: rgba(107, 33, 168, 0.2) !important;
+/* Elementos de destaque no modo claro */
+.light-mode .bg-\[#8B5CF6\]\/10 {
+  background-color: rgba(29, 78, 216, 0.08) !important;
 }
 
-.light-mode .bg-\[#2a2a2e\]\/50 {
-  background-color: #f8fafc !important;
-  border-color: rgba(107, 33, 168, 0.2) !important;
+/* Tabs ativas no modo claro */
+.light-mode .data-\[state\=active\]\:bg-\[#8B5CF6\][data-state="active"] {
+  background-color: #1d4ed8 !important;
+  color: white !important;
 }
 
-.light-mode .bg-\[#1f1f23\]\/50 {
-  background-color: #f1f5f9 !important;
-}
-
-.light-mode .border-gray-600\/30 {
-  border-color: rgba(107, 33, 168, 0.15) !important;
-}
-
-/* Ajustes para elementos de destaque no modo claro */
-.light-mode .bg-\[\#8B5CF6\]\/10 {
-  background-color: rgba(107, 33, 168, 0.08) !important;
-}
-
-/* Ajustes para skeletons no modo claro */
-.light-mode .bg-gray-300 {
-  background-color: #e2e8f0 !important;
-}
-
-/* Ajustes específicos para o painel administrativo */
+/* ========================================
+   PAINEL ADMINISTRATIVO - CORES ESPECÍFICAS
+======================================== */
 
 /* Modo escuro - painel admin */
+.admin-layout {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+
 .admin-layout .player-name,
 .admin-layout .text-lg,
 .admin-layout .text-xl,
@@ -251,142 +319,255 @@ body {
 
 .admin-layout .text-sm,
 .admin-layout .secondary-text {
-  color: #d1d5db !important;
+  color: #cbd5e1 !important; /* Slate 300 */
 }
 
 .admin-layout .primary-text {
-  color: #8b5cf6 !important;
+  color: #60a5fa !important; /* Blue 400 */
+}
+
+/* Cards no painel admin - modo escuro */
+.admin-layout .card,
+.admin-layout .bg-\[#2a2a2e\]\/50 {
+  background-color: rgba(30, 41, 59, 0.8) !important;
+  border-color: #475569 !important;
+  backdrop-filter: blur(12px);
+}
+
+/* Inputs no painel admin - modo escuro */
+.admin-layout input,
+.admin-layout select,
+.admin-layout textarea {
+  background-color: rgba(15, 23, 42, 0.8) !important;
+  border-color: #475569 !important;
+  color: #f1f5f9 !important;
+}
+
+.admin-layout input:focus,
+.admin-layout select:focus,
+.admin-layout textarea:focus {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
 }
 
 /* Modo claro - painel admin */
+.light-mode .admin-layout {
+  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+}
+
 .light-mode .admin-layout .player-name,
 .light-mode .admin-layout .text-lg,
 .light-mode .admin-layout .text-xl,
 .light-mode .admin-layout .font-bold {
-  color: #111827 !important;
-}
-
-.light-mode .text-sm,
-.light-mode .text-xs {
-  color: #374151 !important; /* Cinza mais escuro para textos pequenos */
-}
-
-.light-mode .text-\[\#8B5CF6\]\/70 {
-  color: rgba(55, 65, 81, 0.8) !important; /* Cinza escuro com transparência */
+  color: #0f172a !important;
 }
 
 .light-mode .admin-layout .text-sm,
 .light-mode .admin-layout .secondary-text {
-  color: #374151 !important; /* Cinza mais escuro no painel admin */
+  color: #475569 !important; /* Slate 600 */
 }
 
 .light-mode .admin-layout .primary-text {
-  color: #6b21a8 !important;
+  color: #1d4ed8 !important; /* Blue 700 */
 }
 
-/* Ajustes para tabelas no painel admin */
-.admin-layout .table-cell,
-.admin-layout td,
-.admin-layout th {
-  color: #ffffff;
+/* Cards no painel admin - modo claro */
+.light-mode .admin-layout .card,
+.light-mode .admin-layout .bg-\[#2a2a2e\]\/50 {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-color: #e2e8f0 !important;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
-.light-mode .admin-layout .table-cell,
-.light-mode .admin-layout td,
-.light-mode .admin-layout th {
-  color: #111827;
-}
-
-/* Ajustes para cards no painel admin */
-.admin-layout .card-title {
-  color: #8b5cf6 !important;
-}
-
-.light-mode .admin-layout .card-title {
-  color: #6b21a8 !important;
-}
-
-/* Ajustes para inputs e selects no painel admin */
-.admin-layout input,
-.admin-layout select,
-.admin-layout textarea {
-  color: #ffffff;
-}
-
+/* Inputs no painel admin - modo claro */
 .light-mode .admin-layout input,
 .light-mode .admin-layout select,
 .light-mode .admin-layout textarea {
-  color: #111827;
-}
-
-/* Ajustes para labels no painel admin */
-.admin-layout label {
-  color: #d1d5db;
-}
-
-.light-mode .admin-layout label {
-  color: #374151;
-}
-
-/* Ajustes para badges no painel admin */
-.admin-layout .badge {
-  color: #ffffff !important;
-}
-
-/* Ajustes para botões no painel admin */
-.admin-layout .btn-ghost {
-  color: #d1d5db;
-}
-
-.light-mode .admin-layout .btn-ghost {
-  color: #4b5563;
-}
-
-/* Ajustes para texto de descrição no painel admin */
-.admin-layout .text-muted,
-.admin-layout .text-gray-500,
-.admin-layout .text-gray-400 {
-  color: #9ca3af !important;
-}
-
-.light-mode .admin-layout .text-muted,
-.light-mode .admin-layout .text-gray-500,
-.light-mode .admin-layout .text-gray-400 {
-  color: #4b5563 !important; /* Cinza médio para textos auxiliares */
-}
-
-/* Ajustes específicos para títulos principais */
-.light-mode h1 {
-  color: #111827 !important;
-}
-
-/* Ajustes para gradientes no modo claro */
-.light-mode .bg-gradient-to-b {
-  background: linear-gradient(to bottom, #ffffff, #f8fafc) !important;
-}
-
-/* Ajustes para elementos com cores específicas do Tailwind */
-.light-mode .text-\[\#8B5CF6\]\/70 {
-  color: rgba(107, 33, 168, 0.7) !important;
-}
-
-/* Ajustes para elementos black no modo claro */
-.light-mode .bg-black {
   background-color: #ffffff !important;
+  border-color: #d1d5db !important;
+  color: #0f172a !important;
 }
 
-.light-mode .border-blue-900\/50 {
-  border-color: rgba(107, 33, 168, 0.2) !important;
+.light-mode .admin-layout input:focus,
+.light-mode .admin-layout select:focus,
+.light-mode .admin-layout textarea:focus {
+  border-color: #1d4ed8 !important;
+  box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.1) !important;
 }
 
-.light-mode .text-\[\#00c8ff\] {
-  color: #6b21a8 !important;
+/* ========================================
+   MELHORIAS GERAIS DE LEGIBILIDADE
+======================================== */
+
+/* Badges e elementos coloridos */
+.badge {
+  font-weight: 600 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-.light-mode .bg-black\/50 {
-  background-color: #f8fafc !important;
+/* Botões com melhor contraste */
+button {
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
 }
 
-.light-mode .bg-black\/30 {
-  background-color: #f1f5f9 !important;
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Tabelas com melhor legibilidade */
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+th {
+  font-weight: 600 !important;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+}
+
+td {
+  font-weight: 400;
+}
+
+/* Melhor contraste para textos pequenos */
+.text-xs {
+  color: inherit;
+  opacity: 0.8;
+}
+
+.text-sm {
+  color: inherit;
+  opacity: 0.9;
+}
+
+/* Elementos de foco mais visíveis */
+*:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Gradientes suaves para fundos */
+.bg-gradient-to-b {
+  background: linear-gradient(to bottom, var(--tw-gradient-from), var(--tw-gradient-to));
+}
+
+/* Modo escuro - gradientes */
+.bg-gradient-to-b {
+  background: linear-gradient(to bottom, #0f172a, #1e293b) !important;
+}
+
+.light-mode .bg-gradient-to-b {
+  background: linear-gradient(to bottom, #f8fafc, #ffffff) !important;
+}
+
+/* ========================================
+   CORES ESPECÍFICAS PARA ELEMENTOS ESPECIAIS
+======================================== */
+
+/* Cores para diferentes tipos de alertas */
+.alert-success {
+  background-color: rgba(34, 197, 94, 0.1) !important;
+  border-color: rgba(34, 197, 94, 0.3) !important;
+  color: #16a34a !important;
+}
+
+.alert-warning {
+  background-color: rgba(245, 158, 11, 0.1) !important;
+  border-color: rgba(245, 158, 11, 0.3) !important;
+  color: #d97706 !important;
+}
+
+.alert-error {
+  background-color: rgba(239, 68, 68, 0.1) !important;
+  border-color: rgba(239, 68, 68, 0.3) !important;
+  color: #dc2626 !important;
+}
+
+.light-mode .alert-success {
+  color: #15803d !important;
+}
+
+.light-mode .alert-warning {
+  color: #b45309 !important;
+}
+
+.light-mode .alert-error {
+  color: #b91c1c !important;
+}
+
+/* Skeleton loading com cores apropriadas */
+.skeleton {
+  background: linear-gradient(90deg, #334155 25%, #475569 50%, #334155 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+.light-mode .skeleton {
+  background: linear-gradient(90deg, #e2e8f0 25%, #cbd5e1 50%, #e2e8f0 75%);
+  background-size: 200% 100%;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Melhor contraste para links */
+a {
+  color: #3b82f6;
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+a:hover {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+.light-mode a {
+  color: #1d4ed8;
+}
+
+.light-mode a:hover {
+  color: #1e40af;
+}
+
+/* Scrollbars personalizadas */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #475569;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+.light-mode ::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+.light-mode ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+}
+
+.light-mode ::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }
