@@ -10,17 +10,7 @@ import { PlayerDetailsDialog } from "@/components/player-details-dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 // Lista de classes DPS disponíveis para filtro
-const DPS_CLASSES = [
-  "FULGURANTE",
-  "FURA-BRUMA",
-  "ÁGUIA",
-  "CHAMA SOMBRA",
-  "ADAGAS",
-  "FROST",
-  "ENDEMONIADO",
-  "QUEBRA REINO",
-  "REPETIDOR",
-]
+const DPS_CLASSES = ["FULGURANTE", "FURA-BRUMA", "ÁGUIA", "CHAMA SOMBRA", "FROST", "ENDEMONIADO", "REPETIDOR"]
 
 export function DpsRanking() {
   const [players, setPlayers] = useState([])
@@ -126,10 +116,8 @@ export function DpsRanking() {
       "FURA-BRUMA": "bg-purple-500",
       ÁGUIA: "bg-blue-500",
       "CHAMA SOMBRA": "bg-orange-500",
-      ADAGAS: "bg-green-500",
       FROST: "bg-cyan-500",
       ENDEMONIADO: "bg-pink-500",
-      "QUEBRA REINO": "bg-yellow-500",
       REPETIDOR: "bg-indigo-500",
     }
     return colors[className] || "bg-gray-500"
@@ -170,15 +158,15 @@ export function DpsRanking() {
 
   return (
     <>
-      <Card className="border-blue-900/50 bg-black/50 backdrop-blur-sm">
+      <Card className="border-gray-600/50 bg-[#2a2a2e]/50 backdrop-blur-sm">
         <CardHeader className="pb-2">
-          <CardTitle className="text-2xl flex items-center gap-2">
-            <Swords className="h-6 w-6 text-[#00c8ff]" />
+          <CardTitle className="text-2xl flex items-center gap-2 primary-text">
+            <Swords className="h-6 w-6 text-[#8B5CF6]" />
             Ranking de DPS
             <Button
               variant="ghost"
               size="icon"
-              className="h-6 w-6 rounded-full hover:bg-[#00c8ff]/10"
+              className="h-6 w-6 rounded-full hover:bg-[#8B5CF6]/10"
               onClick={toggleDebug}
             >
               <Bug className="h-4 w-4" />
@@ -190,15 +178,15 @@ export function DpsRanking() {
             {/* Filtro de Classe */}
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <Filter className="h-4 w-4 text-[#00c8ff]/70" />
-                <span className="text-sm text-[#00c8ff]/70">Filtrar por Classe:</span>
+                <Filter className="h-4 w-4 text-[#8B5CF6]/70" />
+                <span className="text-sm secondary-text">Filtrar por Classe:</span>
               </div>
               <div className="flex gap-2">
                 <Select value={classFilter || "all"} onValueChange={handleClassFilterChange} className="flex-1">
-                  <SelectTrigger className="bg-black/50 border-blue-900/50">
+                  <SelectTrigger className="bg-[#1f1f23]/50 border-gray-600/50">
                     <SelectValue placeholder="Selecione a classe" />
                   </SelectTrigger>
-                  <SelectContent className="bg-black border-blue-900/50">
+                  <SelectContent className="bg-[#2a2a2e] border-gray-600/50">
                     <SelectItem value="all">Todas as classes</SelectItem>
                     {DPS_CLASSES.map((className) => (
                       <SelectItem key={className} value={className}>
@@ -215,7 +203,7 @@ export function DpsRanking() {
                     variant="ghost"
                     size="icon"
                     onClick={clearClassFilter}
-                    className="h-10 w-10 rounded-full hover:bg-[#00c8ff]/10"
+                    className="h-10 w-10 rounded-full hover:bg-[#8B5CF6]/10"
                   >
                     <X className="h-4 w-4" />
                     <span className="sr-only">Limpar filtro de classe</span>
@@ -227,16 +215,16 @@ export function DpsRanking() {
             {/* Filtro de Mês */}
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <Calendar className="h-4 w-4 text-[#00c8ff]/70" />
-                <span className="text-sm text-[#00c8ff]/70">Filtrar por Mês:</span>
+                <Calendar className="h-4 w-4 text-[#8B5CF6]/70" />
+                <span className="text-sm secondary-text">Filtrar por Mês:</span>
               </div>
               <div className="flex gap-2">
                 <div className="grid grid-cols-2 gap-2 flex-1">
                   <Select value={monthFilter || "all"} onValueChange={handleMonthChange}>
-                    <SelectTrigger className="bg-black/50 border-blue-900/50">
+                    <SelectTrigger className="bg-[#1f1f23]/50 border-gray-600/50">
                       <SelectValue placeholder="Mês" />
                     </SelectTrigger>
-                    <SelectContent className="bg-black border-blue-900/50">
+                    <SelectContent className="bg-[#2a2a2e] border-gray-600/50">
                       <SelectItem value="all">Todos os meses</SelectItem>
                       {months.map((month) => (
                         <SelectItem key={month.value} value={month.value}>
@@ -247,10 +235,10 @@ export function DpsRanking() {
                   </Select>
 
                   <Select value={yearFilter || "all"} onValueChange={handleYearChange}>
-                    <SelectTrigger className="bg-black/50 border-blue-900/50">
+                    <SelectTrigger className="bg-[#1f1f23]/50 border-gray-600/50">
                       <SelectValue placeholder="Ano" />
                     </SelectTrigger>
-                    <SelectContent className="bg-black border-blue-900/50">
+                    <SelectContent className="bg-[#2a2a2e] border-gray-600/50">
                       <SelectItem value="all">Todos os anos</SelectItem>
                       {years.map((year) => (
                         <SelectItem key={year} value={String(year)}>
@@ -265,7 +253,7 @@ export function DpsRanking() {
                     variant="ghost"
                     size="icon"
                     onClick={clearMonthFilter}
-                    className="h-10 w-10 rounded-full hover:bg-[#00c8ff]/10"
+                    className="h-10 w-10 rounded-full hover:bg-[#8B5CF6]/10"
                   >
                     <X className="h-4 w-4" />
                     <span className="sr-only">Limpar filtro de mês</span>
@@ -277,8 +265,8 @@ export function DpsRanking() {
 
           {/* Exibir filtros ativos */}
           {(classFilter || monthFilter) && (
-            <div className="flex flex-wrap items-center gap-2 mt-4 p-2 bg-blue-900/10 rounded-md">
-              <span className="text-sm text-[#00c8ff]/70">Filtros ativos:</span>
+            <div className="flex flex-wrap items-center gap-2 mt-4 p-2 bg-[#8B5CF6]/10 rounded-md">
+              <span className="text-sm secondary-text">Filtros ativos:</span>
               {classFilter && <Badge className={`${getClassColor(classFilter)} text-white`}>{classFilter}</Badge>}
               {monthFilter && yearFilter && (
                 <Badge className="bg-blue-500 text-white">
@@ -290,7 +278,7 @@ export function DpsRanking() {
         </CardHeader>
         <CardContent>
           {showDebug && debugInfo && (
-            <div className="mb-4 p-4 border border-blue-900/50 rounded-md bg-black/50 text-xs overflow-auto">
+            <div className="mb-4 p-4 border border-gray-600/50 rounded-md bg-[#1f1f23]/50 text-xs overflow-auto">
               <h3 className="font-bold mb-2">Informações de Depuração:</h3>
               <pre>{JSON.stringify(debugInfo, null, 2)}</pre>
             </div>
@@ -305,19 +293,19 @@ export function DpsRanking() {
               <div className="flex items-center justify-between">
                 <div>
                   <div className="flex items-center gap-2">
-                    <h4 className="text-xl font-bold">{players[0].name}</h4>
+                    <h4 className="text-xl font-bold player-name">{players[0].name}</h4>
                     <Badge className={`${getClassColor(players[0].class)} text-white`}>{players[0].class}</Badge>
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="h-6 w-6 rounded-full hover:bg-[#00c8ff]/10"
+                      className="h-6 w-6 rounded-full hover:bg-[#8B5CF6]/10"
                       onClick={() => handleOpenDetails(players[0].name)}
                     >
                       <Info className="h-4 w-4" />
                       <span className="sr-only">Detalhes de {players[0].name}</span>
                     </Button>
                   </div>
-                  <div className="text-sm text-[#00c8ff]/70">
+                  <div className="text-sm secondary-text">
                     Média: {players[0].averageValue.toLocaleString("pt-BR")} DPS ({players[0].entries} caçadas)
                   </div>
                 </div>
@@ -332,7 +320,7 @@ export function DpsRanking() {
           {loading ? (
             // Esqueleto de carregamento
             Array.from({ length: 5 }).map((_, i) => (
-              <div key={i} className="flex items-center gap-4 mb-4 p-4 border border-blue-900/30 rounded-lg">
+              <div key={i} className="flex items-center gap-4 mb-4 p-4 border border-gray-600/30 rounded-lg">
                 <Skeleton className="h-12 w-12 rounded-full" />
                 <div className="space-y-2 flex-1">
                   <Skeleton className="h-4 w-[250px]" />
@@ -344,7 +332,7 @@ export function DpsRanking() {
           ) : (
             <div className="space-y-4">
               {players.length === 0 ? (
-                <div className="text-center py-8 text-[#00c8ff]/70">
+                <div className="text-center py-8 secondary-text">
                   {classFilter && monthFilter
                     ? `Nenhum registro de DPS encontrado para a classe ${classFilter} no período de ${
                         months.find((m) => m.value === monthFilter)?.label
@@ -361,33 +349,33 @@ export function DpsRanking() {
                 players.map((player, index) => (
                   <div
                     key={player.id}
-                    className={`flex items-center gap-4 p-4 border border-blue-900/30 rounded-lg ${
-                      index === 0 ? "bg-[#00c8ff]/10" : ""
+                    className={`flex items-center gap-4 p-4 border border-gray-600/30 rounded-lg ${
+                      index === 0 ? "bg-[#8B5CF6]/10" : ""
                     }`}
                   >
-                    <div className="flex items-center justify-center h-12 w-12 rounded-full bg-black border-2 border-[#00c8ff] text-[#00c8ff] font-bold">
+                    <div className="flex items-center justify-center h-12 w-12 rounded-full bg-[#1f1f23] border-2 border-[#8B5CF6] text-[#8B5CF6] font-bold">
                       {index === 0 ? <Trophy className="h-6 w-6" /> : <span>{index + 1}</span>}
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
-                        <h3 className="font-bold text-lg">{player.name}</h3>
+                        <h3 className="font-bold text-lg player-name">{player.name}</h3>
                         <Badge className={`${getClassColor(player.class)} text-white`}>{player.class}</Badge>
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-6 w-6 rounded-full hover:bg-[#00c8ff]/10"
+                          className="h-6 w-6 rounded-full hover:bg-[#8B5CF6]/10"
                           onClick={() => handleOpenDetails(player.name)}
                         >
                           <Info className="h-4 w-4" />
                           <span className="sr-only">Detalhes de {player.name}</span>
                         </Button>
                       </div>
-                      <div className="text-sm text-[#00c8ff]/70">
+                      <div className="text-sm secondary-text">
                         Média: {player.averageValue.toLocaleString("pt-BR")} DPS ({player.entries} caçadas)
                       </div>
                     </div>
-                    <div className="flex items-center gap-1 text-xl font-bold">
-                      <Flame className="h-5 w-5 text-[#00c8ff]" />
+                    <div className="flex items-center gap-1 text-xl font-bold primary-text">
+                      <Flame className="h-5 w-5 text-[#8B5CF6]" />
                       {player.value.toLocaleString("pt-BR")}
                     </div>
                   </div>

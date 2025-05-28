@@ -811,111 +811,161 @@ a:hover {
    CORREÇÃO FORÇADA PARA DROPDOWNS - MÁXIMA PRIORIDADE
 ======================================== */
 
-/* Forçar fundo claro e texto escuro em TODOS os dropdowns */
-[role="listbox"],
-[role="option"],
-.select-content,
-.SelectContent,
-[data-radix-select-content],
-div[data-radix-popper-content-wrapper] > div,
-div[data-side="bottom"] {
+/* MODO ESCURO - Fundo escuro e texto claro em TODOS os dropdowns */
+body:not(.light-mode) [role="listbox"],
+body:not(.light-mode) [role="option"],
+body:not(.light-mode) .select-content,
+body:not(.light-mode) .SelectContent,
+body:not(.light-mode) [data-radix-select-content],
+body:not(.light-mode) div[data-radix-popper-content-wrapper] > div,
+body:not(.light-mode) div[data-side="bottom"] {
+  background-color: #1e293b !important; /* Slate 800 */
+  color: #f1f5f9 !important; /* Slate 100 */
+  border: 1px solid #475569 !important; /* Slate 600 */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* MODO ESCURO - Texto claro em todos os itens do dropdown */
+body:not(.light-mode) [role="option"],
+body:not(.light-mode) .select-item,
+body:not(.light-mode) .SelectItem,
+body:not(.light-mode) [data-radix-select-item],
+body:not(.light-mode) [data-radix-select-item] span,
+body:not(.light-mode) .select-item span,
+body:not(.light-mode) .SelectItem span {
+  color: #f1f5f9 !important; /* Slate 100 */
+  background-color: transparent !important;
+  padding: 8px 12px !important;
+  font-weight: 500 !important;
+}
+
+/* MODO ESCURO - Hover nos itens */
+body:not(.light-mode) [role="option"]:hover,
+body:not(.light-mode) .select-item:hover,
+body:not(.light-mode) .SelectItem:hover,
+body:not(.light-mode) [data-radix-select-item]:hover,
+body:not(.light-mode) [data-radix-select-item][data-highlighted],
+body:not(.light-mode) .select-item[data-highlighted],
+body:not(.light-mode) .SelectItem[data-highlighted] {
+  background-color: #334155 !important; /* Slate 700 */
+  color: #ffffff !important;
+}
+
+/* MODO ESCURO - Trigger (botão) */
+body:not(.light-mode) .select-trigger,
+body:not(.light-mode) .SelectTrigger,
+body:not(.light-mode) [data-radix-select-trigger] {
+  background-color: rgba(15, 23, 42, 0.8) !important; /* Slate 900 com transparência */
+  color: #f1f5f9 !important; /* Slate 100 */
+  border: 1px solid #475569 !important; /* Slate 600 */
+}
+
+/* MODO ESCURO - Valor selecionado */
+body:not(.light-mode) .select-value,
+body:not(.light-mode) .SelectValue,
+body:not(.light-mode) [data-radix-select-value] {
+  color: #f1f5f9 !important; /* Slate 100 */
+}
+
+/* MODO ESCURO - Sobrescrever fundo preto */
+body:not(.light-mode) .bg-black,
+body:not(.light-mode) div[style*="background-color: black"],
+body:not(.light-mode) div[style*="background: black"] {
+  background-color: #1e293b !important; /* Slate 800 */
+  color: #f1f5f9 !important; /* Slate 100 */
+}
+
+/* MODO ESCURO - Classes específicas do Tailwind */
+body:not(.light-mode) .bg-black.border-blue-900\/50,
+body:not(.light-mode) .bg-black.border-gray-600\/50,
+body:not(.light-mode) .bg-\[#2a2a2e\].border-gray-600\/50 {
+  background-color: #1e293b !important; /* Slate 800 */
+  color: #f1f5f9 !important; /* Slate 100 */
+  border-color: #475569 !important; /* Slate 600 */
+}
+
+/* MODO ESCURO - Textos dentro de elementos com fundo escuro */
+body:not(.light-mode) .bg-black *,
+body:not(.light-mode) .bg-\[#2a2a2e\] *,
+body:not(.light-mode) div[style*="background-color: black"] * {
+  color: #f1f5f9 !important; /* Slate 100 */
+}
+
+/* MODO ESCURO - Spans dentro de dropdowns */
+body:not(.light-mode) [role="listbox"] span,
+body:not(.light-mode) [role="option"] span,
+body:not(.light-mode) .select-content span,
+body:not(.light-mode) .SelectContent span,
+body:not(.light-mode) [data-radix-select-content] span {
+  color: #f1f5f9 !important; /* Slate 100 */
+}
+
+/* MODO CLARO - Fundo claro e texto escuro em TODOS os dropdowns */
+.light-mode [role="listbox"],
+.light-mode [role="option"],
+.light-mode .select-content,
+.light-mode .SelectContent,
+.light-mode [data-radix-select-content],
+.light-mode div[data-radix-popper-content-wrapper] > div,
+.light-mode div[data-side="bottom"] {
   background-color: #ffffff !important;
   color: #000000 !important;
   border: 1px solid #d1d5db !important;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
 }
 
-/* Forçar texto escuro em todos os itens do dropdown */
-[role="option"],
-.select-item,
-.SelectItem,
-[data-radix-select-item],
-[data-radix-select-item] span,
-.select-item span,
-.SelectItem span {
+/* MODO CLARO - Texto escuro em todos os itens do dropdown */
+.light-mode [role="option"],
+.light-mode .select-item,
+.light-mode .SelectItem,
+.light-mode [data-radix-select-item],
+.light-mode [data-radix-select-item] span,
+.light-mode .select-item span,
+.light-mode .SelectItem span {
   color: #000000 !important;
   background-color: transparent !important;
   padding: 8px 12px !important;
   font-weight: 500 !important;
 }
 
-/* Hover nos itens - fundo cinza claro */
-[role="option"]:hover,
-.select-item:hover,
-.SelectItem:hover,
-[data-radix-select-item]:hover,
-[data-radix-select-item][data-highlighted],
-.select-item[data-highlighted],
-.SelectItem[data-highlighted] {
+/* MODO CLARO - Hover nos itens */
+.light-mode [role="option"]:hover,
+.light-mode .select-item:hover,
+.light-mode .SelectItem:hover,
+.light-mode [data-radix-select-item]:hover,
+.light-mode [data-radix-select-item][data-highlighted],
+.light-mode .select-item[data-highlighted],
+.light-mode .SelectItem[data-highlighted] {
   background-color: #f3f4f6 !important;
   color: #000000 !important;
 }
 
-/* Forçar o trigger (botão) também com fundo claro */
-.select-trigger,
-.SelectTrigger,
-[data-radix-select-trigger] {
+/* MODO CLARO - Trigger (botão) */
+.light-mode .select-trigger,
+.light-mode .SelectTrigger,
+.light-mode [data-radix-select-trigger] {
   background-color: #ffffff !important;
   color: #000000 !important;
   border: 1px solid #d1d5db !important;
 }
 
-/* Forçar o valor selecionado */
-.select-value,
-.SelectValue,
-[data-radix-select-value] {
+/* MODO CLARO - Valor selecionado */
+.light-mode .select-value,
+.light-mode .SelectValue,
+.light-mode [data-radix-select-value] {
   color: #000000 !important;
 }
 
-/* Sobrescrever qualquer regra de fundo preto */
-.bg-black,
-div[style*="background-color: black"],
-div[style*="background: black"] {
-  background-color: #ffffff !important;
-  color: #000000 !important;
-}
-
-/* Regra específica para elementos com classes do Tailwind */
-.bg-black.border-blue-900\/50,
-.bg-black.border-gray-600\/50,
-.bg-\[#2a2a2e\].border-gray-600\/50 {
-  background-color: #ffffff !important;
-  color: #000000 !important;
-  border-color: #d1d5db !important;
-}
-
-/* Garantir que todos os textos dentro de elementos com fundo preto sejam escuros */
-.bg-black *,
-.bg-\[#2a2a2e\] *,
-div[style*="background-color: black"] * {
-  color: #000000 !important;
-}
-
-/* Exceção apenas para badges coloridos que devem manter texto branco */
-.bg-black .bg-red-500 *,
-.bg-black .bg-purple-500 *,
-.bg-black .bg-blue-500 *,
-.bg-black .bg-orange-500 *,
-.bg-black .bg-green-500 *,
-.bg-black .bg-cyan-500 *,
-.bg-black .bg-pink-500 *,
-.bg-black .bg-yellow-500 *,
-.bg-black .bg-green-600 *,
-.bg-black .bg-indigo-500 * {
+/* Exceção para badges coloridos que devem manter texto branco */
+.bg-red-500 *,
+.bg-purple-500 *,
+.bg-blue-500 *,
+.bg-orange-500 *,
+.bg-green-500 *,
+.bg-cyan-500 *,
+.bg-pink-500 *,
+.bg-yellow-500 *,
+.bg-green-600 *,
+.bg-indigo-500 * {
   color: #ffffff !important;
-}
-
-/* Regra específica para o componente de seleção de classes */
-div[class*="bg-black"] div[class*="flex items-center gap-2"] span {
-  color: #000000 !important;
-  font-weight: 500 !important;
-}
-
-/* Forçar todos os spans dentro de dropdowns */
-[role="listbox"] span,
-[role="option"] span,
-.select-content span,
-.SelectContent span,
-[data-radix-select-content] span {
-  color: #000000 !important;
 }
