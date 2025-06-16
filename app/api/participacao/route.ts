@@ -85,7 +85,7 @@ export async function GET(request: Request) {
       return NextResponse.json([])
     }
 
-    // Agrupar registros por jogador para contar participações
+    // Agrupar registros por jogador usando NOME normalizado para evitar duplicatas
     const playerMap = new Map()
 
     records.forEach((record) => {
@@ -94,22 +94,35 @@ export async function GET(request: Request) {
       const playerId = record.player_id
       const playerName = record.players.name
 
-      if (!playerMap.has(playerId)) {
-        playerMap.set(playerId, {
+      // Normalizar o nome do jogador (remover espaços extras, converter para lowercase para comparação)
+      const normalizedName = playerName.trim().toLowerCase()
+
+      // Usar o nome normalizado como chave para agrupar, mas manter o nome original para exibição
+      let existingPlayer = null
+      for (const [key, player] of playerMap.entries()) {
+        if (key.toLowerCase() === normalizedName) {
+          existingPlayer = player
+          break
+        }
+      }
+
+      if (!existingPlayer) {
+        playerMap.set(playerName, {
           id: playerId,
-          name: playerName,
+          name: playerName, // Manter o nome original para exibição
           participacoes: 1,
           classes: new Set([record.class]),
           ultimaParticipacao: record.created_at,
+          playerIds: new Set([playerId]), // Rastrear todos os IDs associados a este nome
         })
       } else {
-        const player = playerMap.get(playerId)
-        player.participacoes += 1
-        player.classes.add(record.class)
+        existingPlayer.participacoes += 1
+        existingPlayer.classes.add(record.class)
+        existingPlayer.playerIds.add(playerId)
 
         // Atualizar a data da última participação se for mais recente
-        if (new Date(record.created_at) > new Date(player.ultimaParticipacao)) {
-          player.ultimaParticipacao = record.created_at
+        if (new Date(record.created_at) > new Date(existingPlayer.ultimaParticipacao)) {
+          existingPlayer.ultimaParticipacao = record.created_at
         }
       }
     })
@@ -122,12 +135,18 @@ export async function GET(request: Request) {
       classesUtilizadas: Array.from(player.classes),
       numeroClasses: player.classes.size,
       ultimaParticipacao: player.ultimaParticipacao,
+      playerIds: Array.from(player.playerIds), // Para debug se necessário
     }))
 
     // Ordenar por número de participações (maior para menor)
     participacaoRanking.sort((a, b) => b.participacoes - a.participacoes)
 
     console.log(`Retornando ${participacaoRanking.length} jogadores no ranking de participação`)
+    console.log(
+      "Primeiros 5 jogadores:",
+      participacaoRanking.slice(0, 5).map((p) => `${p.name}: ${p.participacoes} caçadas`),
+    )
+
     return NextResponse.json(participacaoRanking)
   } catch (error) {
     console.error("Erro ao buscar ranking de participação:", error)
