@@ -19,11 +19,10 @@ const DPS_CLASSES = [
   "FURA-BRUMA",
   "ÁGUIA",
   "CHAMA SOMBRA",
-  "ADAGAS",
   "FROST",
   "ENDEMONIADO",
-  "QUEBRA REINO",
-  "REPETIDOR", // Nova classe adicionada
+  "FEITICEIRO", // Renomeado de "QUEBRA REINO"
+  "REPETIDOR",
 ]
 
 // Classe de HPS disponível
